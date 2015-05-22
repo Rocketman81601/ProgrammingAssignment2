@@ -9,9 +9,9 @@ makeCacheMatrix <- function(x = matrix()) {
 ## Directs to an environment outside the current environment   
   }
   get <- function() x
-  setinv <- function(solve) i <<- solve
+  setinv <- function(inverse) inv <<- inverse
 ## Solves the equations that follow
-  getinv <- function() i
+  getinv <- function() inv
   list(set = set, get = get, setinv = setinv, getinv = getinv) 
 }
 
@@ -20,13 +20,13 @@ makeCacheMatrix <- function(x = matrix()) {
 ## If so, it gets the mean from the cache and skips the computation.
 
 cacheSolve <- function(x, ...) {
-  i<- x$getinv()
+  inv<- x$getinv()
   if(!is.null(i)) {
     message("getting cached data")
-    return(i)
+    return(inv)
   }
   data <- x$get()
-  i<- solve(data, ...)
+  inv<- solve(data)
   x$setinv(i)
   i
   
